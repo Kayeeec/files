@@ -17,7 +17,6 @@ version '1.0-SNAPSHOT'
 
 repositories {
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // for TornadoFX 2 snapshot
-    maven { url 'https://repo.osgeo.org/repository/release/' } // for icepdf
     mavenCentral()
     jcenter()
 }
