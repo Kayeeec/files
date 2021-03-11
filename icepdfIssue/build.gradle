@@ -1,0 +1,81 @@
+plugins {
+    id 'application'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.10'
+    id 'org.openjfx.javafxplugin' version '0.0.9'
+}
+
+application {
+    mainClassName = 'org.vpreportcorrector.app.MyAppRun'
+}
+
+javafx {
+    modules = ['javafx.controls', 'javafx.media', 'javafx.graphics', 'javafx.web', 'javafx.swing']
+}
+
+group 'org.vpreportcorrector'
+version '1.0-SNAPSHOT'
+
+repositories {
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // for TornadoFX 2 snapshot
+    maven { url 'https://repo.osgeo.org/repository/release/' } // for icepdf
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.4.10"
+    implementation "no.tornado:tornadofx:2.0.0-SNAPSHOT"
+
+    implementation "org.openjfx:javafx:13-ea+8"
+    implementation "org.openjfx:javafx-base:13-ea+8"
+    implementation "org.openjfx:javafx-controls:13-ea+8"
+    implementation "org.openjfx:javafx-web:13-ea+8"
+    implementation "org.openjfx:javafx-swing:13-ea+8"
+
+    compile 'commons-io:commons-io:2.8.0'
+    compile 'org.apache.commons:commons-lang3:3.11'
+
+    // font icons
+    implementation 'org.kordamp.ikonli:ikonli-javafx:12.1.0'
+    implementation 'org.kordamp.ikonli:ikonli-fontawesome-pack:12.1.0'
+    implementation 'org.kordamp.ikonli:ikonli-fontawesome5-pack:12.1.0'
+    implementation 'org.kordamp.ikonli:ikonli-bootstrapicons-pack:12.1.0'
+
+    // for diagram extractor
+    compile group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.21'
+    compile group: 'org.apache.pdfbox', name: 'fontbox', version: '2.0.21'
+    compile 'org.apache.xmlgraphics:batik-all:1.14' // todo: limit only to the needed components, this is too big, might not be needed in the end
+
+    // svg image loader
+    implementation 'de.codecentric.centerdevice:javafxsvg:1.3.0'
+
+    implementation 'net.kurobako:gesturefx:0.6.0'
+
+    // detachable tabs
+    compile 'com.panemu:tiwulfx-dock:0.1'
+
+    // pdf viewer/annotator swing component @see https://github.com/pcorless/icepdf
+    compile files('./libs/icepdf-core-6.3.3-SNAPSHOT.jar')
+    compile files('./libs/icepdf-viewer-6.3.3-SNAPSHOT.jar')
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "11"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "11"
+}
+
+run {
+    applicationDefaultJvmArgs = ['--add-exports=javafx.graphics/com.sun.javafx.iio=ALL-UNNAMED',
+                                 '--add-exports=javafx.graphics/com.sun.javafx.iio.common=ALL-UNNAMED',
+                                 '--add-exports=javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED',
+                                 '--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED',
+    ]
+
+    jvmArgs = ['--add-exports=javafx.graphics/com.sun.javafx.iio=ALL-UNNAMED',
+               '--add-exports=javafx.graphics/com.sun.javafx.iio.common=ALL-UNNAMED',
+               '--add-exports=javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED',
+               '--add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED',
+    ]
+}
